@@ -24,12 +24,8 @@ class Cat extends Model
         //kot nalezy do 1 schroniska
     }
     
-//    public function saveMany($cats)
-//    {       echo 'dfdfdfd';
-//    print_r(['costam blad']);
-//        foreach ($cats as $cat) {
-//            //echo $cat->name."<br>";
-//            new App\Cat(['name' => $cat->name, 'color' => $cat->color]);
-//        }
-//    }
+    public function guardian()
+    {
+        return $this->worker();
+    }
 }
