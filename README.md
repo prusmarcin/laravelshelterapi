@@ -1,4 +1,4 @@
-Package Laravel Shelter API Server
+Laravel Shelter API Server
 ================
 
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/prusmarcin/laravelshelterapi/blob/master/LICENSE)
