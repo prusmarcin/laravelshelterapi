@@ -59,9 +59,9 @@ All available methods by API:
 ![Screenshot](dostepne-metody.jpg)
 
 
-`GET`: http://localhost:8000/api/shelters
+Call method `GET`: `http://localhost:8000/api/shelters` for returns all shelters.
 
-Returns all shelters
+Returns:
 
 ``` json
 [
@@ -78,7 +78,7 @@ Returns all shelters
 ]
 ```
 
-`POST`: http://localhost:8000/api/shelters
+Call method `POST`: `http://localhost:8000/api/shelters` for create new shelter.
 
 Must send body as JSON(application/json)
 {
@@ -118,9 +118,9 @@ OR
 }
 ````
 
-`GET`: http://localhost:8000/api/shelters/1
+Call method `GET`: `http://localhost:8000/api/shelters/1` for returns selected shelter.
 
-Returns selected shelter
+Returns:
 
 ``` json
 {
@@ -129,7 +129,7 @@ Returns selected shelter
 }
 ````
 
-`PUT`: http://localhost:8000/api/shelters/1
+Call method `PUT` or `PATCH`: `http://localhost:8000/api/shelters/1` for update selected selter.
 
 Must send body as JSON(application/json)
 {
@@ -148,7 +148,7 @@ Returns if is correct validation
 }
 ````
 
-`DELETE`: http://localhost:8000/api/shelters/1
+Call method `DELETE`: `http://localhost:8000/api/shelters/1` for remove selected shelter.
 
 Returns if shelter exists
 
