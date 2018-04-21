@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Shelter;
+use Validator;
 
 class SheltersController extends Controller
 {
@@ -35,16 +36,6 @@ class SheltersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -52,7 +43,37 @@ class SheltersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+                'uskey' => 'required|string|min:5|max:5|unique:shelters,uskey',
+                'name' => 'required|string',
+                'city' => 'required|string',
+                'size' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $errorMessage = '';
+            foreach ($errors->all() as $message) {
+                $errorMessage .= $message . ' ';
+            }
+
+            $response = [
+                'error' => true,
+                'msg' => $errorMessage
+            ];
+
+            return response()->json($response, 400);
+        } else {
+            $response = Shelter::create([
+                    'uskey' => $request->uskey,
+                    'name' => $request->name,
+                    'city' => $request->city,
+                    'size' => $request->size
+            ]);
+
+            return response()->json($response);
+        }
     }
 
     /**
@@ -86,17 +107,6 @@ class SheltersController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -105,7 +115,52 @@ class SheltersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+                'uskey' => 'required|string|min:5|max:5|unique:shelters,uskey',
+                'name' => 'required|string',
+                'city' => 'required|string',
+                'size' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $errorMessage = '';
+            foreach ($errors->all() as $message) {
+                $errorMessage .= $message . ' ';
+            }
+
+            $response = [
+                'error' => true,
+                'msg' => $errorMessage
+            ];
+
+            return response()->json($response, 400);
+        } else {
+
+            $shelter = Shelter::where('id', '=', $id)->get();
+
+            if ($shelter->isEmpty()) {
+                $response = [
+                    'error' => true,
+                    'msg' => 'Shelter not found.'
+                ];
+                return response($response, 400);
+            } else {
+                $shelter = Shelter::find($id)->update([
+                    'uskey' => $request->uskey,
+                    'name' => $request->name,
+                    'city' => $request->city,
+                    'size' => $request->size
+                ]);
+
+                $response = [
+                    'msg' => 'Shelter updated.',
+                    'updated' => $shelter
+                ];
+                return response()->json($response);
+            }
+        }
     }
 
     /**
@@ -116,6 +171,20 @@ class SheltersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleted = Shelter::destroy($id);
+        if ($deleted == 0) {
+            $response = [
+                'error' => true,
+                'message' => 'There is no such shelter to be removed'
+            ];
+            return response()
+                    ->json($response, 400);
+        } else {
+            $response = [
+                'msg' => 'The shelter was removed',
+                'deleted' => $deleted
+            ];
+            return response()->json($response);
+        }
     }
 }

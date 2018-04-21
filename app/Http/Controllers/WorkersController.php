@@ -2,10 +2,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Cat;
+use App\Worker;
 use Validator;
 
-class CatsController extends Controller
+class WorkersController extends Controller
 {
 
     /**
@@ -15,13 +15,13 @@ class CatsController extends Controller
      */
     public function index()
     {
-        if (Cat::all()->count() == 0) {
+        if (Worker::all()->count() == 0) {
             $response = [
-                'msg' => 'Not found cats'
+                'msg' => 'Not found workers'
             ];
         } else {
-            $cats = Cat::all();
-            $response = $cats;
+            $workers = Worker::all();
+            $response = $workers;
         }
 
         return response()->json($response);
@@ -37,8 +37,7 @@ class CatsController extends Controller
     {
         $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'color' => 'required|string',
-                'worker_id' => 'required|integer|exists:workers,id',
+                'age' => 'required|integer',
                 'shelter_id' => 'required|integer|exists:shelters,id'
         ]);
 
@@ -57,10 +56,9 @@ class CatsController extends Controller
 
             return response()->json($response, 400);
         } else {
-            $response = Cat::create([
+            $response = Worker::create([
                     'name' => $request->name,
-                    'color' => $request->color,
-                    'worker_id' => $request->worker_id,
+                    'age' => $request->age,
                     'shelter_id' => $request->shelter_id
             ]);
 
@@ -76,15 +74,18 @@ class CatsController extends Controller
      */
     public function show($id)
     {
-        $cat = Cat::find($id);
-        if (isset($cat->id)) {
+        $worker = Worker::find($id);
+        if (isset($worker->id)) {
             $response = [
-                'name' => $cat->name,
-                'color' => $cat->color
+                'name' => $worker->name,
+                'age' => $worker->age,
+                'shelter_id' => $worker->shelter_id,
+                'created_at' => $worker->created_at,
+                'updated_at' => $worker->updated_at
             ];
         } else {
             $response = [
-                'msg' => 'Not found cat'
+                'msg' => 'Not found worker'
             ];
         }
 
@@ -102,8 +103,7 @@ class CatsController extends Controller
     {
         $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'color' => 'required|string',
-                'worker_id' => 'required|integer|exists:workers,id',
+                'age' => 'required|integer',
                 'shelter_id' => 'required|integer|exists:shelters,id'
         ]);
 
@@ -123,25 +123,24 @@ class CatsController extends Controller
             return response()->json($response, 400);
         } else {
 
-            $cat = Cat::where('id', '=', $id)->get();
+            $worker = Worker::where('id', '=', $id)->get();
 
-            if ($cat->isEmpty()) {
+            if ($worker->isEmpty()) {
                 $response = [
                     'error' => true,
-                    'msg' => 'Cat not found.'
+                    'msg' => 'Worker not found.'
                 ];
                 return response($response, 400);
             } else {
-                $cat = Cat::find($id)->update([
+                $worker = Worker::find($id)->update([
                     'name' => $request->name,
-                    'color' => $request->color,
-                    'worker_id' => $request->worker_id,
+                    'age' => $request->age,
                     'shelter_id' => $request->shelter_id
                 ]);
 
                 $response = [
-                    'msg' => 'Cat updated.',
-                    'updated' => $cat
+                    'msg' => 'Worker updated.',
+                    'updated' => $worker
                 ];
                 return response()->json($response);
             }
@@ -156,17 +155,17 @@ class CatsController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = Cat::destroy($id);
+        $deleted = Worker::destroy($id);
         if ($deleted == 0) {
             $response = [
                 'error' => true,
-                'msg' => 'There is no such cat to be removed'
+                'msg' => 'There is no such worker to be removed'
             ];
             return response()
                     ->json($response, 400);
         } else {
             $response = [
-                'msg' => 'The cat was removed',
+                'msg' => 'The worker was removed',
                 'deleted' => $deleted
             ];
             return response()->json($response);

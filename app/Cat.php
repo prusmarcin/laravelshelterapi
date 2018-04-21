@@ -7,7 +7,7 @@ class Cat extends Model
 {
 
     protected $fillable = [
-        'name', 'color',
+        'name', 'color', 'worker_id', 'shelter_id',
     ];
 
     

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Worker extends Model
 {
     protected $fillable = [
-        'name', 'age',
+        'name', 'age', 'shelter_id',
     ];
     
     

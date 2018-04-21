@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Faker\Factory as Faker;
 
 class Shelter extends Model
 {
@@ -18,7 +19,9 @@ class Shelter extends Model
      */
     public static function generateUSKey()
     {
-        $hash = md5(time().rand(1000, 1000000));
+        $faker = Faker::create();
+        $hash = $faker->md5;
+
         return substr($hash, 0, 5);
     }
     
