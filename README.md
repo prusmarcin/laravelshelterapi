@@ -58,6 +58,8 @@ $ php artisan migrate:refresh --seed
 All available methods by API:
 ![Screenshot](dostepne-metody.jpg)
 
+-------
+SHELTERS
 
 Call method `GET`: `http://localhost:8000/api/shelters` for return all shelters.
 
@@ -169,6 +171,8 @@ Returns if shelter does not exist
 ```
 
 -------
+WORKERS
+
 Call method `GET`: `http://localhost:8000/api/workers` for return all workers.
 
 Returns:
@@ -291,6 +295,8 @@ Returns if worker does not exist
 }
 ```
 -------
+CATS
+
 Call method `GET`: `http://localhost:8000/api/cats` for return all cats.
 
 Returns:
